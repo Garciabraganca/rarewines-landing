@@ -1,6 +1,7 @@
 import Nav from '@/components/Nav'
 import Hero from '@/components/Hero'
 import About from '@/components/About'
+import SommelierSection from '@/components/SommelierSection'
 import PrivateSelection from '@/components/PrivateSelection'
 import Process from '@/components/Process'
 import Experience from '@/components/Experience'
@@ -15,6 +16,7 @@ export default function HomePage() {
       <Nav />
       <Hero />
       <About />
+      <SommelierSection />
       <PrivateSelection />
       <Process />
       <Experience />
