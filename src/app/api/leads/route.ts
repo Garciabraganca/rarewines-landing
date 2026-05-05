@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 const SHEETS_URL =
   process.env.NEXT_PUBLIC_GOOGLE_SHEETS_WEBHOOK_URL ||
-  'https://script.google.com/macros/s/AKfycbxxirHZNn59bMngSVBtqVX4sftQw4ruURoieAJFJQ62VtvCyaIK3f7raa9V4kAmRJreRQ/exec'
+  'https://script.google.com/macros/s/AKfycbyCa4Zuc_TnhIHc10Ni0omDY-teRRHdkZ-ep47irVESw3qGXikmMlWSnr1UahQXiqZ6dA/exec'
 
 export async function POST(req: NextRequest) {
   try {
