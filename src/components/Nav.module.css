@@ -1,0 +1,77 @@
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem 4rem;
+  transition: all 0.5s ease;
+}
+
+.scrolled {
+  background: rgba(8, 7, 6, 0.96);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  padding: 1.25rem 4rem;
+  border-bottom: 1px solid var(--gold-line);
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  gap: 0.25rem;
+}
+
+.brandName {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: 0.875rem;
+  letter-spacing: 0.3125rem;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+.brandSub {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.5rem;
+  letter-spacing: 0.21875rem;
+  color: rgba(184, 154, 106, 0.4);
+  text-transform: uppercase;
+}
+
+.cta {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.5625rem;
+  letter-spacing: 0.15625rem;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: transparent;
+  border: 1px solid var(--gold-line);
+  padding: 0.75rem 1.875rem;
+  cursor: pointer;
+  transition: all 0.35s ease;
+  text-decoration: none;
+}
+
+.cta:hover {
+  background: var(--gold-dim);
+  border-color: rgba(184, 154, 106, 0.45);
+}
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+  .nav,
+  .scrolled {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .brandSub {
+    display: none;
+  }
+}
