@@ -18,7 +18,7 @@ export default function SommelierSection() {
           <div className={styles.imageFrame}>
             <Image
               src="/assets/marco.png"
-              alt="Marcos Ferreira — Sommelier RareWines"
+              alt="Marco Ferreira — Sommelier RareWines"
               fill
               quality={85}
               className={styles.image}
@@ -34,13 +34,13 @@ export default function SommelierSection() {
 
           <h2 className={styles.title}>
             Conheça<br />
-            <em className={styles.em}>Marcos Ferreira.</em>
+            <em className={styles.em}>Marco Ferreira.</em>
           </h2>
 
           <div className={styles.body}>
             <p>
               Com passagem pelo renomado <em className={styles.bodyEm}>Hotel Fasano</em>,
-              Marcos Ferreira construiu sua trajetória nos ambientes mais exigentes
+              Marco Ferreira construiu sua trajetória nos ambientes mais exigentes
               da alta gastronomia e hospitalidade de luxo — onde o padrão de
               procedência e a experiência sensorial são inegociáveis.
             </p>
