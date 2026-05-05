@@ -1,8 +1,47 @@
 .section {
-  padding: 10rem 4rem;
+  position: relative;
+  overflow: hidden;
+  padding: 11rem 4rem;
+  background: var(--black);
 }
 
+/* ── Video ── */
+.bgVideo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  filter: brightness(0.55) saturate(0.75);
+  z-index: 0;
+}
+
+/* ── Overlays ── */
+.overlayBase {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.70);
+  z-index: 1;
+}
+
+.overlayGradient {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom,
+      rgba(8, 7, 6, 0.60) 0%,
+      rgba(0, 0, 0, 0.10) 40%,
+      rgba(0, 0, 0, 0.10) 60%,
+      rgba(8, 7, 6, 0.80) 100%
+    );
+  z-index: 1;
+}
+
+/* ── Content ── */
 .inner {
+  position: relative;
+  z-index: 2;
   max-width: 52rem;
   margin: 0 auto;
   text-align: center;
@@ -13,6 +52,7 @@
   line-height: 1.1;
   color: var(--cream);
   margin-bottom: 2rem;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.6);
 }
 
 .em {
@@ -24,11 +64,20 @@
 .body {
   font-size: 0.875rem;
   line-height: 2;
-  color: var(--cream-mid);
+  color: rgba(240, 235, 225, 0.92);
   max-width: 36rem;
   margin: 0 auto 3.25rem;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.5);
 }
 
+/* ── Mobile ── */
 @media (max-width: 768px) {
-  .section { padding: 6rem 1.5rem; }
+  .section {
+    padding: 7rem 1.5rem;
+  }
+
+  /* keep video on mobile — muted + playsInline handles autoplay policy */
+  .bgVideo {
+    object-position: center 30%;
+  }
 }
