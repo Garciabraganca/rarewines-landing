@@ -25,12 +25,6 @@ const INITIAL: FormState = {
   aceite: false,
 }
 
-const FALLBACK_SHEETS_URL =
-  'https://script.google.com/macros/s/AKfycbxxirHZNn59bMngSVBtqVX4sftQw4ruURoieAJFJQ62VtvCyaIK3f7raa9V4kAmRJreRQ/exec'
-
-const SHEETS_URL =
-  process.env.NEXT_PUBLIC_GOOGLE_SHEETS_WEBHOOK_URL || FALLBACK_SHEETS_URL
-
 const sanitizePhone = (value: string) =>
   value.replace(/[^\d]/g, '')
 
@@ -114,12 +108,12 @@ export default function LeadForm() {
         pagina: typeof window !== 'undefined' ? window.location.href : '',
         userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : '',
       }
-      await fetch(SHEETS_URL, {
+      const res = await fetch('/api/leads', {
         method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain' },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       })
+      if (!res.ok) throw new Error(`API ${res.status}`)
     } catch (err) {
       console.error('[LeadForm] Erro ao enviar para Google Sheets:', err)
       setSending(false)
