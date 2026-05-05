@@ -117,7 +117,7 @@ export default function LeadForm() {
       await fetch(SHEETS_URL, {
         method: 'POST',
         mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify(payload),
       })
     } catch (err) {
