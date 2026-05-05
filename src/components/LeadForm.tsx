@@ -26,6 +26,7 @@ const INITIAL: FormState = {
 }
 
 const WPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '5511991517112'
+const SHEETS_URL = process.env.NEXT_PUBLIC_GOOGLE_SHEETS_WEBHOOK_URL
 
 declare global {
   interface Window {
@@ -37,6 +38,9 @@ export default function LeadForm() {
   const [form, setForm] = useState<FormState>(INITIAL)
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>({})
   const [submitted, setSubmitted] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [sendError, setSendError] = useState(false)
+  const [wppUrl, setWppUrl] = useState('')
   const formRef = useRef<HTMLFormElement>(null)
 
   const set = (key: keyof FormState, value: string | boolean) =>
@@ -53,23 +57,14 @@ export default function LeadForm() {
     return Object.keys(e).length === 0
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!validate()) return
-
-    // Fire Meta Pixel Lead event if available
-    if (typeof window !== 'undefined' && typeof window.fbq === 'function') {
-      window.fbq('track', 'Lead')
-    }
-
-    // Build WhatsApp message
+  const buildWppUrl = (): string => {
     const msg = [
       'Olá, tenho interesse em solicitar acesso à seleção privada Sommelier Marc / RareWines.',
       '',
       `Nome: ${form.nome}`,
       `WhatsApp: ${form.whatsapp}`,
-      form.email   ? `E-mail: ${form.email}`          : null,
-      form.cidade  ? `Cidade/Estado: ${form.cidade}`  : null,
+      form.email  ? `E-mail: ${form.email}`         : null,
+      form.cidade ? `Cidade/Estado: ${form.cidade}` : null,
       `Interesse: ${form.interesse}`,
       `Faixa de investimento: ${form.faixa}`,
       '',
@@ -77,10 +72,56 @@ export default function LeadForm() {
     ]
       .filter(line => line !== null)
       .join('\n')
+    return `https://wa.me/${WPP_NUMBER}?text=${encodeURIComponent(msg)}`
+  }
 
-    const url = `https://wa.me/${WPP_NUMBER}?text=${encodeURIComponent(msg)}`
-    window.open(url, '_blank', 'noopener,noreferrer')
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!validate()) return
 
+    setSending(true)
+    setSendError(false)
+
+    if (typeof window !== 'undefined' && typeof window.fbq === 'function') {
+      window.fbq('track', 'Lead')
+    }
+
+    const url = buildWppUrl()
+    setWppUrl(url)
+
+    if (!SHEETS_URL) {
+      console.warn('[LeadForm] NEXT_PUBLIC_GOOGLE_SHEETS_WEBHOOK_URL não configurada. Dados não enviados ao Sheets.')
+    } else {
+      try {
+        const payload = {
+          nome: form.nome,
+          whatsapp: form.whatsapp,
+          email: form.email,
+          cidade: form.cidade,
+          interesse: form.interesse,
+          investimento: form.faixa,
+          maioridade: form.adulto,
+          aceiteContato: form.aceite,
+          origem: 'Landing Rarewines',
+          pagina: typeof window !== 'undefined' ? window.location.href : '',
+          dataEnvio: new Date().toISOString(),
+          userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : '',
+        }
+        await fetch(SHEETS_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain' },
+          body: JSON.stringify(payload),
+        })
+      } catch (err) {
+        console.error('[LeadForm] Erro ao enviar para Google Sheets:', err)
+        setSending(false)
+        setSendError(true)
+        return
+      }
+    }
+
+    setSending(false)
     setSubmitted(true)
   }
 
@@ -107,10 +148,16 @@ export default function LeadForm() {
             <div className={styles.successLine} />
             <h3 className={styles.successTitle}>Pedido recebido.</h3>
             <p className={styles.successBody}>
-              Sua solicitação foi registrada com discrição.<br />
-              O sommelier entrará em contato pelo WhatsApp informado<br />
-              com a curadoria personalizada para o seu perfil.
+              O sommelier entrará em contato pelo WhatsApp.
             </p>
+            <a
+              href={wppUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.wppButton}
+            >
+              Chamar no WhatsApp
+            </a>
           </div>
         ) : (
           <form
@@ -121,11 +168,7 @@ export default function LeadForm() {
           >
             {/* ── Row 1 ── */}
             <div className={styles.row}>
-              <Field
-                label="Nome completo"
-                error={errors.nome}
-                required
-              >
+              <Field label="Nome completo" error={errors.nome} required>
                 <input
                   className={styles.input}
                   type="text"
@@ -136,11 +179,7 @@ export default function LeadForm() {
                 />
               </Field>
 
-              <Field
-                label="WhatsApp"
-                error={errors.whatsapp}
-                required
-              >
+              <Field label="WhatsApp" error={errors.whatsapp} required>
                 <input
                   className={styles.input}
                   type="tel"
@@ -179,11 +218,7 @@ export default function LeadForm() {
 
             {/* ── Row 3 ── */}
             <div className={styles.row}>
-              <Field
-                label="Interesse principal"
-                error={errors.interesse}
-                required
-              >
+              <Field label="Interesse principal" error={errors.interesse} required>
                 <select
                   className={styles.select}
                   value={form.interesse}
@@ -197,11 +232,7 @@ export default function LeadForm() {
                 </select>
               </Field>
 
-              <Field
-                label="Faixa de investimento"
-                error={errors.faixa}
-                required
-              >
+              <Field label="Faixa de investimento" error={errors.faixa} required>
                 <select
                   className={styles.select}
                   value={form.faixa}
@@ -218,25 +249,32 @@ export default function LeadForm() {
 
             {/* ── Checkboxes ── */}
             <div className={styles.checks}>
-              <CheckItem
-                checked={form.adulto}
-                onChange={v => set('adulto', v)}
-                error={errors.adulto}
-              >
+              <CheckItem checked={form.adulto} onChange={v => set('adulto', v)} error={errors.adulto}>
                 Declaro ter mais de 18 anos.
               </CheckItem>
-
-              <CheckItem
-                checked={form.aceite}
-                onChange={v => set('aceite', v)}
-              >
+              <CheckItem checked={form.aceite} onChange={v => set('aceite', v)}>
                 Aceito receber contato sobre a seleção privada Sommelier Marc / RareWines.
               </CheckItem>
             </div>
 
+            {/* ── Send error ── */}
+            {sendError && (
+              <p className={styles.sendError}>
+                Ocorreu um erro ao registrar sua solicitação. Tente novamente ou{' '}
+                <a
+                  href={`https://wa.me/${WPP_NUMBER}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.sendErrorLink}
+                >
+                  chame pelo WhatsApp.
+                </a>
+              </p>
+            )}
+
             {/* ── Submit ── */}
-            <button type="submit" className={styles.submit}>
-              Encaminhar pedido de acesso
+            <button type="submit" className={styles.submit} disabled={sending}>
+              {sending ? 'Enviando...' : 'Encaminhar pedido de acesso'}
             </button>
 
             <p className={styles.note}>
@@ -289,10 +327,7 @@ function CheckItem({
 }) {
   return (
     <div>
-      <label
-        className={styles.checkRow}
-        onClick={() => onChange(!checked)}
-      >
+      <label className={styles.checkRow} onClick={() => onChange(!checked)}>
         <div className={`${styles.checkbox} ${checked ? styles.checked : ''}`}>
           {checked && <div className={styles.checkDot} />}
         </div>

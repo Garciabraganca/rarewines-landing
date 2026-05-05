@@ -17,8 +17,8 @@
   --surface: rgba(255, 255, 255, 0.025);
 
   --cream: #F0EBE1;
-  --cream-mid: rgba(240, 235, 225, 0.6);
-  --cream-low: rgba(240, 235, 225, 0.35);
+  --cream-mid: rgba(240, 235, 225, 0.78);
+  --cream-low: rgba(240, 235, 225, 0.55);
   --cream-ghost: rgba(240, 235, 225, 0.08);
 
   --serif: 'Cormorant Garamond', Georgia, serif;

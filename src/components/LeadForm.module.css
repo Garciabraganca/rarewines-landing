@@ -29,7 +29,7 @@
 .subtitle {
   font-size: 0.75rem;
   line-height: 1.9;
-  color: rgba(240, 235, 225, 0.32);
+  color: rgba(240, 235, 225, 0.68);
   max-width: 27rem;
 }
 
@@ -55,7 +55,7 @@
   font-weight: 300;
   font-size: 0.47rem;
   letter-spacing: 0.1875rem;
-  color: rgba(184, 154, 106, 0.45);
+  color: rgba(184, 154, 106, 0.72);
   text-transform: uppercase;
   margin-bottom: 0.625rem;
 }
@@ -83,7 +83,7 @@
 }
 
 .input::placeholder {
-  color: rgba(240, 235, 225, 0.18);
+  color: rgba(240, 235, 225, 0.36);
   font-style: italic;
 }
 
@@ -94,7 +94,7 @@
 
 .select {
   cursor: pointer;
-  color: rgba(240, 235, 225, 0.4);
+  color: rgba(240, 235, 225, 0.65);
 }
 
 .select option {
@@ -156,7 +156,7 @@
   font-weight: 300;
   font-size: 0.6875rem;
   line-height: 1.75;
-  color: rgba(240, 235, 225, 0.32);
+  color: rgba(240, 235, 225, 0.68);
 }
 
 /* ── Submit ── */
@@ -185,7 +185,7 @@
   font-weight: 300;
   font-size: 0.5625rem;
   letter-spacing: 0.09375rem;
-  color: rgba(240, 235, 225, 0.18);
+  color: rgba(240, 235, 225, 0.40);
   text-align: center;
   margin-top: 1.125rem;
 }
@@ -217,6 +217,42 @@
   font-size: 0.8125rem;
   line-height: 1.9;
   color: var(--cream-mid);
+}
+
+.wppButton {
+  display: inline-block;
+  margin-top: 2rem;
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 0.5625rem;
+  letter-spacing: 0.21875rem;
+  text-transform: uppercase;
+  color: var(--black);
+  background: var(--gold);
+  border: 1px solid var(--gold);
+  padding: 1rem 2.25rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.35s ease, border-color 0.35s ease;
+}
+
+.wppButton:hover {
+  background: var(--gold-bright);
+  border-color: var(--gold-bright);
+}
+
+.sendError {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.6875rem;
+  line-height: 1.75;
+  color: rgba(220, 100, 80, 0.85);
+  margin-bottom: 1.5rem;
+}
+
+.sendErrorLink {
+  color: var(--gold);
+  text-decoration: underline;
 }
 
 /* ── Mobile ── */

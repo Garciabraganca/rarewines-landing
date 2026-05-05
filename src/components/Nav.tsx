@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
 import styles from './Nav.module.css'
 
 export default function Nav() {
@@ -15,7 +16,16 @@ export default function Nav() {
   return (
     <nav className={`${styles.nav} ${scrolled ? styles.scrolled : ''}`}>
       <div className={styles.brand}>
-        <span className={styles.brandName}>Sommelier Marc</span>
+        <div className={styles.logoWrap}>
+          <Image
+            src="/assets/logo.jpeg"
+            alt="Sommelier Marc — Rare Wines"
+            width={140}
+            height={44}
+            className={styles.logo}
+            priority
+          />
+        </div>
         <span className={styles.brandSub}>Rare Wines · Curadoria Privada</span>
       </div>
 
