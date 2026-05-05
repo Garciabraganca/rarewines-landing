@@ -31,16 +31,34 @@
   aspect-ratio: 4 / 3;
   overflow: hidden;
   border: 1px solid var(--gold-line);
+  background:
+    radial-gradient(circle at 78% 22%, rgba(184, 154, 106, 0.14), transparent 45%),
+    #0b0907;
+  box-shadow: inset 0 0 0 1px rgba(240, 235, 225, 0.025);
 }
 
 .image {
   object-fit: cover;
-  filter: brightness(0.72) contrast(1.05);
+  object-position: center 46%;
+  filter: brightness(0.62) contrast(1.08) saturate(0.86);
   transition: transform 0.8s ease;
 }
 
 .imageWrap:hover .image {
-  transform: scale(1.03);
+  transform: scale(1.04);
+}
+
+.imageWrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(8, 7, 6, 0.58) 0%,
+    rgba(8, 7, 6, 0.12) 42%,
+    rgba(8, 7, 6, 0.04) 100%
+  );
+  pointer-events: none;
 }
 
 .caption {

@@ -24,7 +24,7 @@ export const wines: Wine[] = [
     status: 'rótulo de referência',
     image: '/assets/mouton.jpg',
     alt: 'Château Mouton Rothschild — garrafa icônica Pauillac, Bordeaux',
-    objectPosition: 'center top',
+    objectPosition: 'center center',
   },
   {
     id: 2,
@@ -34,7 +34,7 @@ export const wines: Wine[] = [
     status: 'seleção reservada',
     image: '/assets/margaux.jpg',
     alt: 'Château Margaux — Premier Grand Cru Classé, Bordeaux',
-    objectPosition: 'center top',
+    objectPosition: 'center center',
   },
   {
     id: 3,
@@ -44,7 +44,7 @@ export const wines: Wine[] = [
     status: 'sob consulta',
     image: '/assets/haut-brion.jpg',
     alt: 'Château Haut-Brion — Cru Classé des Graves, Pessac-Léognan',
-    objectPosition: 'center top',
+    objectPosition: 'center center',
   },
   {
     id: 4,
@@ -54,7 +54,7 @@ export const wines: Wine[] = [
     status: 'curadoria privada',
     image: '/assets/lafite.jpg',
     alt: 'Château Lafite Rothschild — Pauillac, safras icônicas',
-    objectPosition: 'center top',
+    objectPosition: 'center center',
   },
   {
     id: 5,
@@ -64,7 +64,7 @@ export const wines: Wine[] = [
     status: 'sob consulta',
     image: '/assets/masseto.jpg',
     alt: 'Masseto Toscana IGT — Tenuta dell\'Ornellaia, rótulo colecionável',
-    objectPosition: 'center top',
+    objectPosition: 'center center',
   },
   {
     id: 6,
@@ -74,6 +74,6 @@ export const wines: Wine[] = [
     status: 'seleção reservada',
     image: '/assets/insignia.jpg',
     alt: 'Joseph Phelps Insignia — Napa Valley Estate Grown, edição limitada',
-    objectPosition: 'center top',
+    objectPosition: 'center center',
   },
 ]

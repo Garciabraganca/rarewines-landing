@@ -15,8 +15,9 @@
 
 .image {
   object-fit: cover;
-  object-position: center 20%;
-  filter: brightness(0.42) contrast(1.08) saturate(0.85);
+  object-position: center 34%;
+  filter: brightness(0.36) contrast(1.14) saturate(0.74);
+  transform: scale(1.03);
 }
 
 /* ── Overlays ── */
@@ -38,10 +39,21 @@
   background: linear-gradient(
     to top,
     rgba(8, 7, 6, 1) 0%,
-    rgba(8, 7, 6, 0.6) 22%,
+    rgba(8, 7, 6, 0.68) 24%,
     transparent 55%
   );
   z-index: 1;
+}
+
+.imageWrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 72% 22%, rgba(184, 154, 106, 0.08), transparent 44%),
+    linear-gradient(to right, rgba(8, 7, 6, 0.2), transparent 36%);
+  z-index: 1;
+  pointer-events: none;
 }
 
 /* ── Vertical line accent ── */
