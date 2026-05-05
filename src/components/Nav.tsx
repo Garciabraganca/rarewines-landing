@@ -18,10 +18,10 @@ export default function Nav() {
       <div className={styles.brand}>
         <div className={styles.logoWrap}>
           <Image
-            src="/assets/logo.jpeg"
+            src="/assets/logo.png"
             alt="Sommelier Marc — Rare Wines"
-            width={140}
-            height={44}
+            width={150}
+            height={50}
             className={styles.logo}
             priority
           />

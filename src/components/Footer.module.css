@@ -19,7 +19,7 @@
   font-weight: 300;
   font-size: 0.8125rem;
   letter-spacing: 0.1875rem;
-  color: rgba(184, 154, 106, 0.45);
+  color: rgba(184, 154, 106, 0.72);
   text-transform: uppercase;
 }
 
@@ -28,7 +28,7 @@
   font-weight: 300;
   font-size: 0.5rem;
   letter-spacing: 0.1875rem;
-  color: rgba(184, 154, 106, 0.25);
+  color: rgba(184, 154, 106, 0.52);
   text-transform: uppercase;
 }
 
@@ -37,7 +37,7 @@
   font-weight: 300;
   font-size: 0.5625rem;
   letter-spacing: 0.025rem;
-  color: rgba(240, 235, 225, 0.18);
+  color: rgba(240, 235, 225, 0.42);
   line-height: 1.85;
   text-align: right;
   max-width: 32rem;

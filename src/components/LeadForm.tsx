@@ -25,8 +25,18 @@ const INITIAL: FormState = {
   aceite: false,
 }
 
-const WPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '5511991517112'
-const SHEETS_URL = process.env.NEXT_PUBLIC_GOOGLE_SHEETS_WEBHOOK_URL
+const FALLBACK_SHEETS_URL =
+  'https://script.google.com/macros/s/AKfycbxxirHZNn59bMngSVBtqVX4sftQw4ruURoieAJFJQ62VtvCyaIK3f7raa9V4kAmRJreRQ/exec'
+
+const SHEETS_URL =
+  process.env.NEXT_PUBLIC_GOOGLE_SHEETS_WEBHOOK_URL || FALLBACK_SHEETS_URL
+
+const sanitizePhone = (value: string) =>
+  value.replace(/[^\d]/g, '')
+
+const WPP_NUMBER = sanitizePhone(
+  process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '5511991517112'
+)
 
 declare global {
   interface Window {
@@ -89,36 +99,32 @@ export default function LeadForm() {
     const url = buildWppUrl()
     setWppUrl(url)
 
-    if (!SHEETS_URL) {
-      console.warn('[LeadForm] NEXT_PUBLIC_GOOGLE_SHEETS_WEBHOOK_URL não configurada. Dados não enviados ao Sheets.')
-    } else {
-      try {
-        const payload = {
-          nome: form.nome,
-          whatsapp: form.whatsapp,
-          email: form.email,
-          cidade: form.cidade,
-          interesse: form.interesse,
-          investimento: form.faixa,
-          maioridade: form.adulto,
-          aceiteContato: form.aceite,
-          origem: 'Landing Rarewines',
-          pagina: typeof window !== 'undefined' ? window.location.href : '',
-          dataEnvio: new Date().toISOString(),
-          userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : '',
-        }
-        await fetch(SHEETS_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'text/plain' },
-          body: JSON.stringify(payload),
-        })
-      } catch (err) {
-        console.error('[LeadForm] Erro ao enviar para Google Sheets:', err)
-        setSending(false)
-        setSendError(true)
-        return
+    try {
+      const payload = {
+        dataEnvio: new Date().toISOString(),
+        nome: form.nome,
+        whatsapp: form.whatsapp,
+        email: form.email,
+        cidade: form.cidade,
+        interesse: form.interesse,
+        investimento: form.faixa,
+        maioridade: form.adulto,
+        aceiteContato: form.aceite,
+        origem: 'Landing Rarewines',
+        pagina: typeof window !== 'undefined' ? window.location.href : '',
+        userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : '',
       }
+      await fetch(SHEETS_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload),
+      })
+    } catch (err) {
+      console.error('[LeadForm] Erro ao enviar para Google Sheets:', err)
+      setSending(false)
+      setSendError(true)
+      return
     }
 
     setSending(false)

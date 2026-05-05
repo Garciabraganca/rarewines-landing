@@ -33,11 +33,10 @@
 
 .logo {
   width: auto !important;
-  height: 2rem !important;
+  height: 2.75rem !important;
+  max-width: 10rem;
   object-fit: contain;
   object-position: left center;
-  filter: brightness(0) invert(1) sepia(1) saturate(0.4) hue-rotate(5deg) brightness(1.1);
-  opacity: 0.92;
 }
 
 .brandName {
@@ -83,6 +82,11 @@
   .nav,
   .scrolled {
     padding: 1.25rem 1.5rem;
+  }
+
+  .logo {
+    height: 2.25rem !important;
+    max-width: 8rem;
   }
 
   .brandSub {
